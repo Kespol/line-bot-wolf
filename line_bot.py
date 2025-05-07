@@ -707,6 +707,11 @@ flight_database = {
     }
 }
 
+@app.route("/test")
+def test():
+    logger.info("Received a request to /test route")
+    return "Hello, WolfLord! This is a test route!"
+
 @app.route("/callback", methods=['POST'])
 def callback():
     logger.info("Received a callback request from LINE")
@@ -767,4 +772,5 @@ def handle_message(event):
 if __name__ == "__main__":
     # Heroku 會提供 PORT 環境變數，預設用 5000
     port = int(os.getenv("PORT", 5000))
+    logger.info(f"Starting Flask app on port {port}")
     app.run(host="0.0.0.0", port=port, debug=False)
