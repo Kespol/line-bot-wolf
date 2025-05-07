@@ -1,8 +1,13 @@
 import os
 from flask import Flask, request, abort
+import logging
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+
+# 設置日誌
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -12,6 +17,7 @@ LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
 # 檢查是否正確讀取環境變數
 if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
+    logger.error("LINE_CHANNEL_ACCESS_TOKEN or LINE_CHANNEL_SECRET is not set!")
     raise ValueError("LINE_CHANNEL_ACCESS_TOKEN or LINE_CHANNEL_SECRET is not set! Please set the environment variables on Heroku!")
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
@@ -703,12 +709,15 @@ flight_database = {
 
 @app.route("/callback", methods=['POST'])
 def callback():
+    logger.info("Received a callback request from LINE")
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
+    logger.info(f"Request body: {body}")
 
     try:
         handler.handle(body, signature)
-    except InvalidSignatureError:
+    except InvalidSignatureError as e:
+        logger.error(f"Invalid signature error: {e}")
         abort(400)
 
     return 'OK'
@@ -716,6 +725,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_message = event.message.text.strip()
+    logger.info(f"Received message: {user_message}")
     reply_text = "喵～狼君，狐狐幫你查！\n"
 
     # 查詢航空公司
@@ -723,6 +733,7 @@ def handle_message(event):
     for key in flight_database.keys():
         if user_message in key:
             flight = flight_database[key]
+            logger.info(f"Matched airline: {key}")
             break
 
     if flight:
@@ -747,9 +758,11 @@ def handle_message(event):
                 )
             ]
         )
+        logger.info("Replied successfully")
     else:
         reply_text += "找不到對應航空公司，狼君試試像「華航」或「A320」這樣輸入喲！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+        logger.info("Replied with not found message")
 
 if __name__ == "__main__":
     # Heroku 會提供 PORT 環境變數，預設用 5000
