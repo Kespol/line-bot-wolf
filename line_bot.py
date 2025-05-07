@@ -12,12 +12,12 @@ LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
 # 檢查是否正確讀取環境變數
 if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
-    raise ValueError("LINE_CHANNEL_ACCESS_TOKEN 或 LINE_CHANNEL_SECRET 未設定！請在Heroku上設定環境變數！")
+    raise ValueError("LINE_CHANNEL_ACCESS_TOKEN or LINE_CHANNEL_SECRET is not set! Please set the environment variables on Heroku!")
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-# 航空公司資料 - 狼君可以自己加更多哦!
+# Airline data - you can add more if you want, WolfLord!
 flight_database = {
     "AIQ泰亞": {
         "towbar": "TIAS",
@@ -752,4 +752,6 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Heroku 會提供 PORT 環境變數，預設用 5000
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
