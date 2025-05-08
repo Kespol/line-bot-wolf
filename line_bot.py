@@ -33,7 +33,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/aiqchocks.png"
+        "chock_image": "https://imgur.com/DZEJHNF"
     },
     "AXM馬亞": {
         "towbar": "TIAS",
@@ -43,7 +43,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/axmchocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "APG菲亞": {
         "towbar": "TIAS",
@@ -53,7 +53,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/apgfchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "APG普航": {
         "towbar": "TIAS",
@@ -63,7 +63,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/apgchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CHH海南": {
         "towbar": "CAL",
@@ -73,7 +73,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁飲水合約內 其餘on call",
-        "chock_image": "https://i.imgur.com/chhchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CSS順風": {
         "towbar": "無拖桿車",
@@ -83,7 +83,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁飲水合約內 其餘on call",
-        "chock_image": "https://i.imgur.com/csschocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "JAL真航空": {
         "towbar": "CAL",
@@ -93,7 +93,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁飲水合約內 TTW代理 其餘on call",
-        "chock_image": "https://i.imgur.com/jalchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "EOK可依": {
         "towbar": "EOK",
@@ -103,7 +103,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁飲水合約內 熊航代理 其餘on call",
-        "chock_image": "https://i.imgur.com/eokchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "ESR易斯達": {
         "towbar": "台亞",
@@ -113,7 +113,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "熊航代理 其餘on call",
-        "chock_image": "https://i.imgur.com/esrchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "FDX聯邦": {
         "towbar": "FDX",
@@ -123,7 +123,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "棚廠維修支援推機要簽單 人工引導要簽單 其餘on call",
-        "chock_image": "https://i.imgur.com/fdxchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "AHK華民貨機": {
         "towbar": "AHK或CPA",
@@ -133,7 +133,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "A330不用綁帶 其餘on call",
-        "chock_image": "https://i.imgur.com/ahkchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "AMU澳門": {
         "towbar": "TIAS",
@@ -143,7 +143,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "過境移機要簽單 過夜同機號第三次移機要簽單 其餘on call",
-        "chock_image": "https://i.imgur.com/amuchocks.png"
+        "chock_image": "https://imgur.com/EmsEKFQ"
     },
     "CSC四川": {
         "towbar": "CAL",
@@ -153,7 +153,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cscchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CSH上海": {
         "towbar": "CAL",
@@ -163,7 +163,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cshchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CSN南方": {
         "towbar": "CAL",
@@ -173,7 +173,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/csnchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CSZ深圳": {
         "towbar": "CAL",
@@ -183,7 +183,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cszchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CCA國航": {
         "towbar": "CAL",
@@ -193,7 +193,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/ccachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CKK中貨航": {
         "towbar": "CAL",
@@ -203,7 +203,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/ckkchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CDG山東": {
         "towbar": "CAL",
@@ -213,7 +213,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cdgchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CYZ中郵航": {
         "towbar": "CAL",
@@ -223,7 +223,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cyzchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "HVN越南": {
         "towbar": "CAL",
@@ -233,7 +233,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/hvnchocks.png"
+        "chock_image": "https://imgur.com/EmsEKFQ"
     },
     "JSA捷星": {
         "towbar": "CAL",
@@ -243,7 +243,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/jsachocks.png"
+        "chock_image": "https://imgur.com/ITFrxY1"
     },
     "MAS馬航": {
         "towbar": "CAL",
@@ -253,7 +253,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/maschocks.png"
+        "chock_image": "https://imgur.com/LpLj16d"
     },
     "JTA越洋": {
         "towbar": "CAL",
@@ -263,7 +263,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "不用開關門 其餘on call",
-        "chock_image": "https://i.imgur.com/jtachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "GTI亞特拉斯": {
         "towbar": "CAL",
@@ -273,7 +273,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "雙交管 其餘on call",
-        "chock_image": "https://i.imgur.com/gtichocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "APJ樂桃": {
         "towbar": "TIAS",
@@ -283,7 +283,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "可無拖桿車及人員運送車SSU 其餘on call",
-        "chock_image": "https://i.imgur.com/apjchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "MXD峇迪": {
         "towbar": "TLM 天際 台亞",
@@ -293,7 +293,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "夜間2300~0700 其餘on call",
-        "chock_image": "https://i.imgur.com/mxdchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "MMA緬甸": {
         "towbar": "天際 台亞",
@@ -303,7 +303,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "拖桿在A3 其餘on call",
-        "chock_image": "https://i.imgur.com/mmachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "TLM泰獅": {
         "towbar": "TLM 天際 台亞",
@@ -313,7 +313,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "夜間2300~0700 其餘on call",
-        "chock_image": "https://i.imgur.com/tlmchocks.png"
+        "chock_image": "https://imgur.com/EmsEKFQ"
     },
     "KAL韓航": {
         "towbar": "CAL",
@@ -323,7 +323,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "不需要",
         "others": "飲水合約內 A380要專用拖桿 其餘on call",
-        "chock_image": "https://i.imgur.com/kalchocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "JJA濟州": {
         "towbar": "CAL",
@@ -333,7 +333,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "TTW代理 其餘on call",
-        "chock_image": "https://i.imgur.com/jjachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CAL中華": {
         "towbar": "CAL",
@@ -343,7 +343,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 其餘on call",
-        "chock_image": "https://i.imgur.com/calchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "MDA華信": {
         "towbar": "CAL",
@@ -353,7 +353,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "擦玻璃free 扶梯車要寫時間 其餘on call",
-        "chock_image": "https://i.imgur.com/mdachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CLX盧森堡": {
         "towbar": "CAL",
@@ -363,7 +363,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "748清廁不加藥水 組員車合約內 其餘on call",
-        "chock_image": "https://i.imgur.com/clxchocks.png"
+        "chock_image": "https://imgur.com/DjUVy4h"
     },
     "ICV盧森堡": {
         "towbar": "CAL",
@@ -373,7 +373,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "748清廁不加藥水 組員車合約內 其餘on call",
-        "chock_image": "https://i.imgur.com/icvchocks.png"
+        "chock_image": "https://imgur.com/DjUVy4h"
     },
     "CES東方": {
         "towbar": "CAL",
@@ -383,7 +383,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/ceschocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CEB宿霧": {
         "towbar": "TIAS",
@@ -393,7 +393,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "旅客扶梯收費 可用無拖桿車 其餘on call",
-        "chock_image": "https://i.imgur.com/cebchocks.png"
+        "chock_image": "https://imgur.com/EmsEKFQ"
     },
     "CXA廈門": {
         "towbar": "CAL",
@@ -403,7 +403,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/cxachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "CPA國泰客貨": {
         "towbar": "CPA",
@@ -413,7 +413,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "各時段各項裝備分開單獨開白單 客機擦玻璃free 貨機擦玻璃要簽單 水系消毒要註明3次 當班加水清廁要簽單 過夜消毒要簽白單 過夜起站加水不簽 組員車free 其餘on call",
-        "chock_image": "https://i.imgur.com/cpa_chocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "DAL達美": {
         "towbar": "TIAS",
@@ -423,7 +423,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "過夜同機號移機第三次簽單 過境移機要簽單 過境BCU-過夜on call簽單 其餘on call",
-        "chock_image": "https://i.imgur.com/dalchocks.png"
+        "chock_image": "https://imgur.com/KmW3LAU"
     },
     "BTK巴澤": {
         "towbar": "TLM 天際 台亞",
@@ -433,7 +433,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "夜間2300~0700 其餘on call",
-        "chock_image": "https://i.imgur.com/btkchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "BAV越竹": {
         "towbar": "TIAS",
@@ -443,7 +443,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/bavchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "KLM荷航": {
         "towbar": "CAL",
@@ -453,7 +453,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/klmchocks.png"
+        "chock_image": "https://imgur.com/dGusdc5"
     },
     "HKE香港快運": {
         "towbar": "TIAS",
@@ -463,7 +463,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/hkechocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "HGB大彎區": {
         "towbar": "CAL",
@@ -473,7 +473,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "TIAS代理 其餘on call",
-        "chock_image": "https://i.imgur.com/hgbchocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "HKC香港貨運": {
         "towbar": "TIAS",
@@ -483,7 +483,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "不綁帶 含一次移機 其餘on call",
-        "chock_image": "https://i.imgur.com/hkcchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "JAL日航": {
         "towbar": "CAL",
@@ -493,7 +493,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "清廁飲水free 不可用無拖桿車 BCU FREE 其餘on call",
-        "chock_image": "https://i.imgur.com/jal_passenger_chocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "JAL日航貨": {
         "towbar": "CAL",
@@ -503,7 +503,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "清廁飲水free 不綁帶 BCU FREE 其餘on call",
-        "chock_image": "https://i.imgur.com/jal_cargo_chocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "JJP日捷": {
         "towbar": "CAL TTW",
@@ -513,7 +513,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/jjpchocks.png"
+        "chock_image": "https://imgur.com/trneslC"
     },
     "XAX全亞": {
         "towbar": "TIAS",
@@ -523,7 +523,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/xaxchocks.png"
+        "chock_image": "https://imgur.com/trneslC"
     },
     "VJC越捷": {
         "towbar": "TIAS",
@@ -533,7 +533,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "TTW代理 其餘on call",
-        "chock_image": "https://i.imgur.com/vjcchocks.png"
+        "chock_image": "https://imgur.com/kM1qTVJ"
     },
     "VAG越旅": {
         "towbar": "天際 台亞",
@@ -543,7 +543,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/vagchocks.png"
+        "chock_image": "https://imgur.com/EmsEKFQ"
     },
     "YZR-757揚子江": {
         "towbar": "無拖桿車",
@@ -553,7 +553,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "清廁飲水合約內 其餘on call",
-        "chock_image": "https://i.imgur.com/yzr757chocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "YZR-737揚子江": {
         "towbar": "CAL",
@@ -563,7 +563,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/yzr737chocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "UAE阿酋": {
         "towbar": "CPA",
@@ -573,7 +573,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "貨機777不綁帶2300~0700 其餘on call",
-        "chock_image": "https://i.imgur.com/uaechocks.png"
+        "chock_image": "https://imgur.com/z8Ud0ix"
     },
     "UAL聯合": {
         "towbar": "UAL",
@@ -583,7 +583,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁不加藥水 支援後推要簽單 其餘on call",
-        "chock_image": "https://i.imgur.com/ualchocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "YHT土航": {
         "towbar": "CAL",
@@ -593,7 +593,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "清廁不加藥水 其餘on call",
-        "chock_image": "https://i.imgur.com/yhtchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "THA泰航": {
         "towbar": "TIAS",
@@ -603,7 +603,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/thachocks.png"
+        "chock_image": "https://imgur.com/LpLj16d"
     },
     "QFA澳洲": {
         "towbar": "CAL",
@@ -613,7 +613,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/qfachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "TVJ泰越捷": {
         "towbar": "天際台亞",
@@ -623,7 +623,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "L3靠扶梯車加油用不簽單 其餘on call",
-        "chock_image": "https://i.imgur.com/tvjchocks.png"
+        "chock_image": "https://imgur.com/kM1qTVJ"
     },
     "TTW台虎": {
         "towbar": "CAL TTW",
@@ -633,7 +633,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/ttwchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "TWB德威": {
         "towbar": "CAL",
@@ -643,7 +643,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/twbchocks.png"
+        "chock_image": "https://imgur.com/lDZI4lR"
     },
     "SIA新加坡貨機": {
         "towbar": "TIAS",
@@ -653,7 +653,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "不綁帶 其餘on call",
-        "chock_image": "https://i.imgur.com/siachocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "RBA汶萊": {
         "towbar": "CAL",
@@ -663,7 +663,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "不可用無拖桿車 TIAS代理 其餘on call",
-        "chock_image": "https://i.imgur.com/rbachocks.png"
+        "chock_image": "https://imgur.com/LpLj16d"
     },
     "RYL菲皇": {
         "towbar": "天際台亞",
@@ -673,7 +673,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/rylchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "PAC保羅": {
         "towbar": "CAL",
@@ -683,7 +683,17 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "雙交管 其餘on call",
-        "chock_image": "https://i.imgur.com/pacchocks.png"
+        "chock_image": "https://imgur.com/ITFrxY1"
+    },
+    "捷星太平洋": {
+        "towbar": "CAL",
+        "headset": "需要",
+        "bypass_pin": "需要",
+        "gear_pin": "需要",
+        "toilet_service": "需要",
+        "water_service": "需要",
+        "others": "其餘on call",
+        "chock_image": "https://imgur.com/gKA5co0"
     },
     "PAL菲航": {
         "towbar": "CAL",
@@ -693,7 +703,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/palchocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     },
     "PRI私人": {
         "towbar": "無",
@@ -703,7 +713,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://i.imgur.com/prichocks.png"
+        "chock_image": "https://imgur.com/VsdCom2"
     }
 }
 
