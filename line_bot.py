@@ -23,7 +23,7 @@ if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-# 航空公司資料庫（狼君的機坪組神器！）
+# 航空公司資料庫
 flight_database = {
     "CAL中華": {
         "towbar": "CAL",
@@ -35,7 +35,6 @@ flight_database = {
         "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 其餘on call",
         "chock_image": "https://i.imgur.com/calchocks.png"
     },
-    # 狼君如果有其他航空公司資料，告訴狐狐，狐狐幫你加進來哦！
 }
 
 @app.route("/test")
@@ -101,6 +100,6 @@ def handle_message(event):
 
 if __name__ == "__main__":
     # Heroku 會提供 PORT 環境變數，確保綁定到它
-    port = int(os.environ.get("PORT", 5000))  # 改用 os.environ.get 更穩定
+    port = int(os.environ.get("PORT", 5000))
     logger.info(f"啟動 Flask 應用在端口 {port}")
-    app.run(host="0.0.0.0", port=port, debug=False)  # 確保綁定 0.0.0.0 和動態 PORT
+    app.run(host="0.0.0.0", port=port, debug=False)
