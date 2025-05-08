@@ -745,10 +745,12 @@ def handle_message(event):
     logger.info(f"收到訊息: {user_message}")
     reply_text = "喵～狼君，狐狐幫你查！\n"
 
-    # 查詢航空公司
+    # 查詢航空公司，忽略大小寫和多餘空格
     flight = None
+    user_message_cleaned = user_message.strip()  # 去掉多餘空格
     for key in flight_database.keys():
-        if user_message in key:
+        key_cleaned = key.strip()  # 去掉key的多餘空格
+        if user_message_cleaned in key_cleaned:
             flight = flight_database[key]
             logger.info(f"匹配到航空公司: {key}")
             break
