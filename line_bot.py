@@ -108,11 +108,11 @@ flight_database = {
     "ESR易斯達": {
         "towbar": "台亞",
         "headset": "需要",
-        "bypass_pin": "需要",
+        "bypass_pin": "不需",
         "gear_pin": "需要",
         "toilet_service": "不需要",
         "water_service": "不需要",
-        "others": "熊航代理 其餘on call",
+        "others": "熊航代理 易斯達專用拖桿在A4 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "FDX聯邦": {
@@ -342,7 +342,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 其餘on call",
+        "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 A坪和B坪要橋氣電 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "MDA華信": {
@@ -410,8 +410,8 @@ flight_database = {
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "不需",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "各時段各項裝備分開單獨開白單 客機擦玻璃free 貨機擦玻璃要簽單 水系消毒要註明3次 當班加水清廁要簽單 過夜消毒要簽白單 過夜起站加水不簽 組員車free 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
@@ -468,7 +468,7 @@ flight_database = {
     "HGB大彎區": {
         "towbar": "CAL",
         "headset": "不需",
-        "bypass_pin": "需要",
+        "bypass_pin": "不需",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
@@ -632,7 +632,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "其餘on call",
+        "others": "A坪和B坪要橋氣電 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TWB德威": {
@@ -774,6 +774,7 @@ def handle_message(event):
         reply_text += f"清廁：{flight['toilet_service']}\n"
         reply_text += f"飲水：{flight['water_service']}\n"
         reply_text += f"其他要求：{flight['others']}\n"
+        reply_text += "華航代理的787系列：專用拖桿在A9\n"
         reply_text += "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
 
         # 回傳文字訊息和圖片
