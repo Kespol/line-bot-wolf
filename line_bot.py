@@ -585,7 +585,7 @@ flight_database = {
         "others": "清廁不加藥水 支援後推要簽單 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
     },
-    "YHT土航": {
+    "THY土航": {
         "towbar": "CAL",
         "headset": "不需",
         "bypass_pin": "不需",
