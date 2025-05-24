@@ -412,7 +412,7 @@ flight_database = {
         "gear_pin": "不需",
         "toilet_service": "on call",
         "water_service": "on call",
-        "others": "各時段各項裝備分開單獨開白單 客機擦玻璃free 貨機擦玻璃要簽單 水系消毒要註明3次 當班加水清廁要簽單 過夜消毒要簽白單 過夜起站加水不簽 組員車free 其餘on call",
+        "others": "各時段各項裝備分開單獨開白單 客機擦玻璃free 貨機擦玻璃要簽單 水系消毒要註明3次 當班加水清廁要簽單 過夜消毒要簽白單 過夜起站加水不簽 組員車free 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "DAL達美": {
@@ -452,7 +452,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "其餘on call",
+        "others": "飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1BTXGaagiOIe3pL8EgaY41N_Zf1bivd7T"
     },
     "HKE香港快運": {
@@ -492,7 +492,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "不需要",
         "water_service": "不需要",
-        "others": "清廁飲水free 不可用無拖桿車 BCU FREE 其餘on call",
+        "others": "清廁飲水free 不可用無拖桿車 BCU FREE 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "JAL日航貨": {
@@ -502,7 +502,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "不需要",
         "water_service": "不需要",
-        "others": "清廁飲水free 不綁帶 BCU FREE 其餘on call",
+        "others": "清廁飲水free 不綁帶 BCU FREE 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "JJP日捷": {
@@ -572,7 +572,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "貨機777不綁帶2300~0700 其餘on call",
+        "others": "貨機777不綁帶2300~0700 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1rI55bor5G_5Nqz5x1GoyMRd7QQ8JMeiq"
     },
     "UAL聯合": {
@@ -582,7 +582,7 @@ flight_database = {
         "gear_pin": "不需",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "清廁不加藥水 支援後推要簽單 其餘on call",
+        "others": "清廁不加藥水 支援後推要簽單 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
     },
     "THY土航": {
@@ -592,7 +592,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "清廁不加藥水 其餘on call",
+        "others": "清廁不加藥水 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "THA泰航": {
