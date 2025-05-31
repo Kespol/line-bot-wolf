@@ -63,206 +63,13 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CHH海南": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "清廁飲水合約內 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CSS順風": {
-        "towbar": "無拖桿車",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "清廁飲水合約內 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "JAL真航空": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "清廁飲水合約內 TTW代理 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "EOK可依": {
-        "towbar": "EOK",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "清廁飲水合約內 熊航代理 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "ESR易斯達": {
-        "towbar": "台亞",
-        "headset": "需要",
-        "bypass_pin": "不需",
-        "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "熊航代理 易斯達專用拖桿在A4 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "FDX聯邦": {
-        "towbar": "FDX",
-        "headset": "不需",
-        "bypass_pin": "不需",
-        "gear_pin": "不需",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "棚廠維修支援推機要簽單 人工引導要簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "AHK華民貨機": {
-        "towbar": "AHK或CPA",
-        "headset": "不需",
-        "bypass_pin": "不需",
-        "gear_pin": "不需",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "A330不用綁帶 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "AMU澳門": {
-        "towbar": "TIAS",
-        "headset": "不需",
-        "bypass_pin": "不需",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "過境移機要簽單 過夜同機號第三次移機要簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1lzSqeQ1byWegvisZURZPMO7xKRRvUy2_"
-    },
-    "CSC四川": {
-        "towbar": "CAL",
+        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwzaakt: "CAL",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CSH上海": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CSN南方": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CSZ深圳": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CCA國航": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CKK中貨航": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CDG山東": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "CYZ中郵航": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
-    },
-    "HVN越南": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1lzSqeQ1byWegvisZURZPMO7xKRRvUy2_"
-    },
-    "JSA捷星": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=19FfKLQGQka8lko2t-W1lUSlyOHT-gc1i"
-    },
-    "MAS馬航": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1uCmxwhwiDtRFSvLvwUWRiHtsnyN68FWi"
-    },
-    "JTA越洋": {
-        "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
-        "gear_pin": "需要",
-        "toilet_service": "需要",
-        "water_service": "需要",
-        "others": "不用開關門 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "GTI亞特拉斯": {
@@ -373,7 +180,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "748清廁不加藥水 組員車合約內 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Zk1UfT-0IvqBkc3K9JADXfBQOwCFgUIR"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1Zk1UfT-0IvqBkc3K9JADXfBQ NuestroCFgUIR"
     },
     "CES東方": {
         "towbar": "CAL",
@@ -423,7 +230,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "過夜同機號移機第三次簽單 過境移機要簽單 過境BCU-過夜on call簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1ylMdAuDpkH-bdbwsGe_JjZw-P7fOCJH8"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1yKqMMLshdF2Sads4QxhcWJRNPelHrWGF"  # 更改輪檔圖片
     },
     "BTK巴澤": {
         "towbar": "TLM 天際 台亞",
@@ -533,7 +340,7 @@ flight_database = {
         "toilet_service": "不需要",
         "water_service": "不需要",
         "others": "TTW代理 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1KdLxut3n9nxcRnLj5OVV9Yv-09gr5vRU"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1VqdLxut3n9nxcRnLj5OVV9Yv-09gr5vRU"
     },
     "VAG越旅": {
         "towbar": "天際 台亞",
@@ -599,7 +406,7 @@ flight_database = {
         "towbar": "TIAS",
         "headset": "需要",
         "bypass_pin": "需要",
-        "gear_pin": "不需",
+        "gear_pin": "不需",  # 更改為不需
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "其餘on call",
@@ -632,7 +439,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "A坪和B坪要橋氣電 其餘on call",
+        "others": "A坪和B坪要橋氣電 要拖機要插gear pin 不拖不插gear pin 早上要接飛不插gear pin 擺機到 B4～B8要插gear pin 接駁坪B1~B3不用插 其餘on call",  # 新增備註
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TWB德威": {
