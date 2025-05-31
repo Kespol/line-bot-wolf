@@ -423,7 +423,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "過夜同機號移機第三次簽單 過境移機要簽單 過境BCU-過夜on call簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1yKqMMLshdF2Sads4QxhcWJRNPelHrWGF"  # 更改輪檔圖片
+        "chock_image": "https://drive.google.com/uc?export=view&id=1yKqMMLshdF2Sads4QxhcWJRNPelHrWGF"
     },
     "BTK巴澤": {
         "towbar": "TLM 天際 台亞",
@@ -632,7 +632,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "A坪和B坪要橋氣電 其餘on call",
+        "others": "A坪和B坪要橋氣電 要拖機要插gear pin 不拖不插gear pin 早上要接飛不插gear pin 擺機到 B4～B8要插gear pin 接駁坪B1~B3不用插 其餘on call",  # 新增備註
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TWB德威": {
