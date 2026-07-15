@@ -199,8 +199,19 @@ def handle_message(event):
                 return
 
             # 更新資料
-            old_value = flight_database[target_key][field]
-            flight_database[target_key][field] = new_value
+            # 如果是更新圖片，自動轉換 Google Drive 網址
+if field == "chock_image" and "drive.google.com/file/d/" in new_value:
+    try:
+        # 從分享連結中提取檔案 ID
+        file_id = new_value.split("/file/d/")[1].split("/")[0]
+        new_value = f"https://drive.google.com/uc?export=view&id={file_id}"
+        logger.info(f"已自動轉換 Google Drive 圖片網址: {new_value}")
+    except Exception as e:
+        logger.error(f"轉換 Google Drive 網址失敗: {e}")
+
+# 更新資料
+old_value = flight_database[target_key][field]
+flight_database[target_key][field] = new_value
 
             # 儲存到 Volume
             save_flight_database()
