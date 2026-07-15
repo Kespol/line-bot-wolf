@@ -29,17 +29,33 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 os.makedirs("/app/data", exist_ok=True)
 
 # ====================== 航空公司資料庫 ======================
-# 從 JSON 檔案載入航空公司資料
-try:
-    with open("/app/data/flight_database.json", "r", encoding="utf-8") as f:
-        flight_database = json.load(f)
-    logger.info("成功從 flight_database.json 載入資料")
-except FileNotFoundError:
-    logger.error("找不到 flight_database.json，請確認檔案是否存在")
-    flight_database = {}
-except Exception as e:
-    logger.error(f"載入 flight_database.json 失敗: {e}")
-    flight_database = {}
+DATA_FILE = "/app/data/flight_database.json"
+REPO_FILE = "flight_database.json"
+
+if os.path.exists(DATA_FILE):
+    # Volume 裡有檔案，直接載入
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            flight_database = json.load(f)
+        logger.info("成功從 Volume 載入 flight_database.json")
+    except Exception as e:
+        logger.error(f"載入 Volume 內的 JSON 失敗: {e}")
+        flight_database = {}
+else:
+    # Volume 裡沒有檔案，嘗試從 repo 複製一份
+    if os.path.exists(REPO_FILE):
+        try:
+            import shutil
+            shutil.copy(REPO_FILE, DATA_FILE)
+            with open(DATA_FILE, "r", encoding="utf-8") as f:
+                flight_database = json.load(f)
+            logger.info("首次啟動，已從 repo 複製 flight_database.json 到 Volume")
+        except Exception as e:
+            logger.error(f"複製 JSON 失敗: {e}")
+            flight_database = {}
+    else:
+        logger.error("找不到任何 flight_database.json，資料為空")
+        flight_database = {}
 
 # ====================== 儲存資料函數 ======================
 def save_flight_database():
