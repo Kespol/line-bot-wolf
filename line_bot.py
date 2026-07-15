@@ -98,9 +98,105 @@ def root():
 # ====================== 訊息處理 ======================
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_message = event.message.text.strip().lower()
-    logger.info(f"收到訊息: {user_message}")
+    user_id = event.source.user_id
+    original_message = event.message.text.strip()
+    user_message = original_message.lower()
 
+    logger.info(f"收到訊息: {original_message} (User: {user_id})")
+
+    # ====================== 管理員功能 ======================
+    ADMIN_USER_ID = "Ub708c5cb86181ccf095998112faf6d89"
+
+    # 只有管理員才能使用更新指令
+    if user_id == ADMIN_USER_ID and original_message.startswith("更新 "):
+        try:
+            # 格式：更新 航空公司 欄位 新內容
+            parts = original_message.split(" ", 3)
+
+            if len(parts) < 4:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="格式錯誤！\n正確格式：\n更新 航空公司名稱 欄位 新內容\n\n範例：\n更新 華航 其他要求 新的備註內容")
+                )
+                return
+
+            airline_name = parts[1]
+            field = parts[2]
+            new_value = parts[3]
+
+            # 尋找航空公司（支援別名）
+            target_key = None
+            for key, info in flight_database.items():
+                if airline_name.lower() in key.lower():
+                    target_key = key
+                    break
+                if "aliases" in info:
+                    for alias in info.get("aliases", []):
+                        if airline_name.lower() in alias.lower():
+                            target_key = key
+                            break
+                if target_key:
+                    break
+
+            if not target_key:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"找不到航空公司：{airline_name}")
+                )
+                return
+
+            # 檢查欄位是否存在
+            if field not in flight_database[target_key]:
+                # 嘗試常見欄位對應
+                field_map = {
+                    "拖桿": "towbar",
+                    "耳機": "headset",
+                    "耳機員": "headset",
+                    "bypass": "bypass_pin",
+                    "bypass pin": "bypass_pin",
+                    "gear": "gear_pin",
+                    "gear pin": "gear_pin",
+                    "清廁": "toilet_service",
+                    "飲水": "water_service",
+                    "其他": "others",
+                    "其他要求": "others",
+                    "輪檔": "chock_image",
+                    "圖片": "chock_image",
+                    "chock": "chock_image"
+                }
+                field = field_map.get(field, field)
+
+            if field not in flight_database[target_key]:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"找不到欄位：{field}\n可用欄位：towbar, headset, bypass_pin, gear_pin, toilet_service, water_service, others, chock_image")
+                )
+                return
+
+            # 更新資料
+            old_value = flight_database[target_key][field]
+            flight_database[target_key][field] = new_value
+
+            # 儲存到 Volume
+            save_flight_database()
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text=f"✅ 更新成功！\n\n航空公司：{target_key}\n欄位：{field}\n原本內容：{old_value}\n新內容：{new_value}"
+                )
+            )
+            return
+
+        except Exception as e:
+            logger.error(f"更新失敗: {e}")
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=f"更新時發生錯誤：{str(e)}")
+            )
+            return
+
+    # ====================== 一般查詢功能 ======================
     flight = None
     matched_key = None
 
@@ -154,7 +250,6 @@ def handle_message(event):
         reply_text += "找不到對應航空公司，狼君試試像「華航」或「真航」這樣輸入喲！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
         logger.info("回覆找不到的訊息")
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     logger.info(f"啟動 Flask 應用在端口 {port}")
