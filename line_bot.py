@@ -757,6 +757,7 @@ def root():
 # ====================== 訊息處理 ======================
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    # 把使用者輸入轉成小寫 + 去掉前後空格
     user_message = event.message.text.strip().lower()
     logger.info(f"收到訊息: {user_message}")
 
@@ -764,20 +765,24 @@ def handle_message(event):
     matched_key = None
 
     for key, info in flight_database.items():
+        # 把 key 轉小寫再比對
         if user_message in key.lower():
             flight = info
             matched_key = key
             break
+
+        # 把 aliases 也轉小寫再比對
         if "aliases" in info:
-            for alias in info["aliases"]:
+            for alias in info.get("aliases", []):
                 if user_message in alias.lower():
                     flight = info
                     matched_key = key
                     break
+
         if flight:
             break
 
-    reply_text = "喵～狐狐幫你查！\n"
+    reply_text = "喵～狼君，狐狐幫你查！\n"
 
     if flight:
         reply_text += f"航空公司：{matched_key}\n"
