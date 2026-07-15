@@ -105,7 +105,7 @@ def handle_message(event):
         reply_text += f"飲水：{flight['water_service']}\n"
         reply_text += f"其他要求：{flight['others']}\n"
         reply_text += "華航代理的787系列：專用拖桿在A9\n"
-        reply_text += "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
+        reply_text += "狐狐提醒：工作時小心點～"
 
         try:
             line_bot_api.reply_message(
