@@ -18,24 +18,21 @@ app = Flask(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
-# 檢查是否正確讀取環境變數
-# if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
-#     logger.error("LINE_CHANNEL_ACCESS_TOKEN 或 LINE_CHANNEL_SECRET 未設定！請在Heroku上設定環境變數！")
-#     raise ValueError("LINE_CHANNEL_ACCESS_TOKEN 或 LINE_CHANNEL_SECRET 未設定！請在Heroku上設定環境變數！")
 print("=== ACCESS TOKEN ===", os.environ.get("LINE_CHANNEL_ACCESS_TOKEN"))
 print("=== SECRET ===", os.environ.get("LINE_CHANNEL_SECRET"))
+
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-# 航空公司資料庫（狼君的機坪組神器！）
+# ====================== 航空公司資料庫 ======================
 flight_database = {
     "AIQ泰亞": {
         "towbar": "TIAS",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1KEX8y7gU-w5vdfXn5sG830RUAFSXISbL"
     },
@@ -44,8 +41,8 @@ flight_database = {
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
     },
@@ -54,8 +51,8 @@ flight_database = {
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
@@ -64,8 +61,8 @@ flight_database = {
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
@@ -89,7 +86,8 @@ flight_database = {
         "others": "清廁飲水合約內 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
-    "JAL真航空": {
+    "JNA真航空": {
+        "aliases": ["真航", "JNA", "真航空", "JAL真航"],
         "towbar": "CAL",
         "headset": "需要",
         "bypass_pin": "需要",
@@ -110,26 +108,28 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "ESR易斯達": {
-        "towbar": "台亞",
+        "towbar": "TIAS",
         "headset": "需要",
         "bypass_pin": "不需",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "熊航代理 易斯達專用拖桿在A4 其餘on call",
+        "toilet_service": "on call",
+        "water_service": "on call",
+        "others": "熊航代理 桃勤白拖桿或無拖桿 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "FDX聯邦": {
+        "aliases": ["飛遞"],
         "towbar": "FDX",
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "不需",
         "toilet_service": "不需要",
         "water_service": "不需要",
-        "others": "棚廠維修支援推機要簽單 人工引導要簽單 其餘on call",
+        "others": "須交管以及開GIS 棚廠維修支援推機要簽單 人工引導要簽單 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "AHK華民貨機": {
+        "aliases": ["華民"],
         "towbar": "AHK或CPA",
         "headset": "不需",
         "bypass_pin": "不需",
@@ -261,22 +261,23 @@ flight_database = {
     },
     "JTA越洋": {
         "towbar": "CAL",
-        "headset": "需要",
-        "bypass_pin": "需要",
+        "headset": "不需",
+        "bypass_pin": "不需",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "不用開關門 其餘on call",
+        "others": "不用開關門 擦玻璃合約內 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "GTI亞特拉斯": {
+        "aliases": ["GTI"],
         "towbar": "CAL",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "雙交管 其餘on call",
+        "others": "東北角也要雙交管 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "APJ樂桃": {
@@ -286,11 +287,11 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "可無拖桿車及人員運送車SSU 其餘on call",
+        "others": "可無拖桿車及人員運送車SSU合約內 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "MXD峇迪": {
-        "towbar": "TLM 天際 台亞",
+        "towbar": "TLM 天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
@@ -300,17 +301,17 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "MMA緬甸": {
-        "towbar": "天際 台亞",
+        "towbar": "天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "拖桿在A3 其餘on call",
+        "others": "MMA ERJ190拖桿在A3 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TLM泰獅": {
-        "towbar": "TLM 天際 台亞",
+        "towbar": "TLM 天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
@@ -326,7 +327,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "不需要",
-        "others": "飲水合約內 A380要專用拖桿 其餘on call",
+        "others": "飲水合約內 A380要專用拖桿 如壞掉用無拖桿需簽單 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
     },
     "JJA濟州": {
@@ -340,13 +341,14 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "CAL中華": {
+        "aliases": ["CI"],
         "towbar": "CAL",
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 A坪和B坪要橋氣電 其餘on call",
+        "others": "貨機要電源車 擦玻璃free 扶梯車要寫時間 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "MDA華信": {
@@ -356,7 +358,7 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "擦玻璃free 扶梯車要寫時間 其餘on call",
+        "others": "同華航",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "CLX盧森堡": {
@@ -364,25 +366,25 @@ flight_database = {
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
+        "toilet_service": "on call",
+        "water_service": "on call",
         "others": "748清廁不加藥水 組員車合約內 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Zk1UfT-0IvqBkc3K9JADXfBQOwCFgUIR"
     },
-    "ICV盧森堡": {
-        "towbar": "CAL",
+    "SPQ太陽": {
+        "towbar": "天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "748清廁不加藥水 組員車合約內 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1Zk1UfT-0IvqBkc3K9JADXfBQOwCFgUIR"
+        "toilet_service": "需要",
+        "water_service": "需要",
+        "others": "其餘on call",
+        "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "CES東方": {
         "towbar": "CAL",
-        "headset": "不需",
-        "bypass_pin": "不需",
+        "headset": "需要",
+        "bypass_pin": "需要",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
@@ -394,9 +396,9 @@ flight_database = {
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "不需",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "旅客扶梯收費 可用無拖桿車 其餘on call",
+        "toilet_service": "on call",
+        "water_service": "on call",
+        "others": "旅客扶梯簽單 可用無拖桿車 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1lzSqeQ1byWegvisZURZPMO7xKRRvUy2_"
     },
     "CXA廈門": {
@@ -414,8 +416,8 @@ flight_database = {
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "不需",
-        "toilet_service": "on call",
-        "water_service": "on call",
+        "toilet_service": "on call及航機過夜執行",
+        "water_service": "on call及航機過夜執行",
         "others": "各時段各項裝備分開單獨開白單 客機擦玻璃free 貨機擦玻璃要簽單 水系消毒要註明3次 當班加水清廁要簽單 過夜消毒要簽白單 過夜起站加水不簽 組員車free 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
@@ -426,11 +428,12 @@ flight_database = {
         "gear_pin": "不需",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "過夜同機號移機第三次簽單 過境移機要簽單 過境BCU-過夜on call簽單 其餘on call",
+        "others": "航機進場主輪檔需繞紅線外至機翼後 過夜同機號移機第三次簽單 過境移機要簽單 BCU-on call簽單 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1yKqMMLshdF2Sads4QxhcWJRNPelHrWGF"
     },
-    "BTK巴澤": {
-        "towbar": "TLM 天際 台亞",
+    "BTK峇迪馬印": {
+        "aliases": ["馬印"],
+        "towbar": "TLM 天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
@@ -496,17 +499,17 @@ flight_database = {
         "gear_pin": "需要",
         "toilet_service": "不需要",
         "water_service": "不需要",
-        "others": "清廁飲水free 不可用無拖桿車 BCU FREE 飛機輪檔要等修護或是loading說好才能放 其餘on call",
+        "others": "清廁飲水free 不可用無拖桿車 BCU FREE 不綁帶 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
-    "JAL日航貨": {
+    "ETD阿提哈德": {
         "towbar": "CAL",
-        "headset": "不需",
-        "bypass_pin": "不需",
+        "headset": "需要",
+        "bypass_pin": "需要",
         "gear_pin": "需要",
-        "toilet_service": "不需要",
-        "water_service": "不需要",
-        "others": "清廁飲水free 不綁帶 BCU FREE 飛機輪檔要等修護或是loading說好才能放 其餘on call",
+        "toilet_service": "需要",
+        "water_service": "需要",
+        "others": "收裝插銷都要簽 扶梯也要簽單",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "JJP日捷": {
@@ -540,7 +543,7 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1KdLxut3n9nxcRnLj5OVV9Yv-09gr5vRU"
     },
     "VAG越旅": {
-        "towbar": "天際 台亞",
+        "towbar": "天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
@@ -586,7 +589,7 @@ flight_database = {
         "gear_pin": "不需",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "清廁不加藥水 支援後推要簽單 飛機輪檔要等修護或是loading說好才能放 其餘on call",
+        "others": "注意送機站位置及手勢 清廁不加藥水 支援後推要簽單 飛機輪檔要等修護或是loading說好才能放 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
     },
     "THY土航": {
@@ -620,7 +623,7 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TVJ泰越捷": {
-        "towbar": "天際台亞",
+        "towbar": "天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "需要",
@@ -630,13 +633,14 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1KdLxut3n9nxcRnLj5OVV9Yv-09gr5vRU"
     },
     "TTW台虎": {
+        "aliases": ["IT"],
         "towbar": "CAL TTW",
         "headset": "不需",
         "bypass_pin": "不需",
         "gear_pin": "需要",
         "toilet_service": "需要",
         "water_service": "需要",
-        "others": "A坪和B坪要橋氣電 要拖機要插gear pin 不拖不插gear pin 早上要接飛不插gear pin 擺機到 B4～B8要插gear pin 接駁坪B1~B3不用插 其餘on call",  # 新增備註
+        "others": "要拖機要插gear pin 不拖不插gear pin 早上要接飛不插gear pin 擺機到 B4～B8要插gear pin 接駁坪B1~B3不用插 其餘on call",
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "TWB德威": {
@@ -670,7 +674,7 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1uCmxwhwiDtRFSvLvwUWRiHtsnyN68FWi"
     },
     "RYL菲皇": {
-        "towbar": "天際台亞",
+        "towbar": "天際",
         "headset": "需要",
         "bypass_pin": "需要",
         "gear_pin": "不需",
@@ -721,6 +725,7 @@ flight_database = {
     }
 }
 
+# ====================== 路由 ======================
 @app.route("/test")
 def test():
     logger.info("收到 /test 路由的請求")
@@ -729,18 +734,13 @@ def test():
 @app.route("/callback", methods=['POST'])
 def callback():
     logger.info("收到 LINE 的 callback 請求")
-    logger.info(f"請求頭: {request.headers}")
-    logger.info(f"請求內容: {request.get_data(as_text=True)}")
-
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
-
     try:
         handler.handle(body, signature)
     except InvalidSignatureError as e:
         logger.error(f"簽名驗證失敗: {e}")
         abort(400)
-
     return 'OK', 200
 
 @app.route("/callback", methods=['GET'])
@@ -753,24 +753,33 @@ def root():
     logger.info("收到 GET 請求到根路徑 /")
     return "Welcome to WolfLord's LINE Bot!"
 
+# ====================== 訊息處理 ======================
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_message = event.message.text.strip()
+    user_message = event.message.text.strip().lower()
     logger.info(f"收到訊息: {user_message}")
-    reply_text = "喵～狼君，狐狐幫你查！\n"
 
-    # 查詢航空公司，忽略大小寫和多餘空格
     flight = None
-    user_message_cleaned = user_message.strip()  # 去掉多餘空格
-    for key in flight_database.keys():
-        key_cleaned = key.strip()  # 去掉key的多餘空格
-        if user_message_cleaned in key_cleaned:
-            flight = flight_database[key]
-            logger.info(f"匹配到航空公司: {key}")
+    matched_key = None
+
+    for key, info in flight_database.items():
+        if user_message in key.lower():
+            flight = info
+            matched_key = key
+            break
+        if "aliases" in info:
+            for alias in info["aliases"]:
+                if user_message in alias.lower():
+                    flight = info
+                    matched_key = key
+                    break
+        if flight:
             break
 
+    reply_text = "喵～狐狐幫你查！\n"
+
     if flight:
-        reply_text += f"航空公司：{key}\n"
+        reply_text += f"航空公司：{matched_key}\n"
         reply_text += f"拖桿：{flight['towbar']}\n"
         reply_text += f"耳機員：{flight['headset']}\n"
         reply_text += f"bypass pin：{flight['bypass_pin']}\n"
@@ -781,7 +790,6 @@ def handle_message(event):
         reply_text += "華航代理的787系列：專用拖桿在A9\n"
         reply_text += "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
 
-        # 回傳文字訊息和圖片
         try:
             line_bot_api.reply_message(
                 event.reply_token,
@@ -793,13 +801,15 @@ def handle_message(event):
                     )
                 ]
             )
-            logger.info(f"圖片發送成功，URL: {flight['chock_image']}")
+            logger.info("回覆成功")
         except Exception as e:
             logger.error(f"圖片發送失敗: {e}")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text + "\n(圖片發送失敗，請稍後再試！)"))
-        logger.info("回覆成功")
+            line_bot_api.reply_message(
+                event.reply_token, 
+                TextSendMessage(text=reply_text + "\n(圖片發送失敗，請稍後再試！)")
+            )
     else:
-        reply_text += "找不到對應航空公司，狼君試試像「華航」或「A320」這樣輸入喲！"
+        reply_text += "找不到對應航空公司，狼君試試像「華航」或「真航」這樣輸入喲！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
         logger.info("回覆找不到的訊息")
 
