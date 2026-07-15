@@ -3,6 +3,7 @@ load_dotenv()
 
 import os
 import json
+import shutil
 from flask import Flask, request, abort
 import logging
 from linebot import LineBotApi, WebhookHandler
@@ -33,7 +34,6 @@ DATA_FILE = "/app/data/flight_database.json"
 REPO_FILE = "flight_database.json"
 
 if os.path.exists(DATA_FILE):
-    # Volume 裡有檔案，直接載入
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             flight_database = json.load(f)
@@ -42,10 +42,8 @@ if os.path.exists(DATA_FILE):
         logger.error(f"載入 Volume 內的 JSON 失敗: {e}")
         flight_database = {}
 else:
-    # Volume 裡沒有檔案，嘗試從 repo 複製一份
     if os.path.exists(REPO_FILE):
         try:
-            import shutil
             shutil.copy(REPO_FILE, DATA_FILE)
             with open(DATA_FILE, "r", encoding="utf-8") as f:
                 flight_database = json.load(f)
@@ -59,9 +57,8 @@ else:
 
 # ====================== 儲存資料函數 ======================
 def save_flight_database():
-    """將 flight_database 儲存回 JSON 檔案"""
     try:
-        with open("/app/data/flight_database.json", "w", encoding="utf-8") as f:
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(flight_database, f, ensure_ascii=False, indent=2)
         logger.info("成功儲存 flight_database.json")
     except Exception as e:
@@ -70,29 +67,24 @@ def save_flight_database():
 # ====================== 路由 ======================
 @app.route("/test")
 def test():
-    logger.info("收到 /test 路由的請求")
     return "Hello, WolfLord! This is a test route!"
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    logger.info("收到 LINE 的 callback 請求")
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
     try:
         handler.handle(body, signature)
-    except InvalidSignatureError as e:
-        logger.error(f"簽名驗證失敗: {e}")
+    except InvalidSignatureError:
         abort(400)
     return 'OK', 200
 
 @app.route("/callback", methods=['GET'])
 def callback_get():
-    logger.info("收到 GET 請求到 /callback")
     return "This endpoint only accepts POST requests!", 405
 
 @app.route("/")
 def root():
-    logger.info("收到 GET 請求到根路徑 /")
     return "Welcome to WolfLord's LINE Bot!"
 
 # ====================== 訊息處理 ======================
@@ -104,17 +96,17 @@ def handle_message(event):
 
     logger.info(f"收到訊息: {original_message} (User: {user_id})")
 
-    # ====================== 管理員功能 ======================
     ADMIN_USER_ID = "Ub708c5cb86181ccf095998112faf6d89"
 
-    # 只有管理員才能使用更新指令
-# 幫助 / 功能列表
+    # ---------- 幫助 ----------
     if user_id == ADMIN_USER_ID and original_message in ["幫助", "功能", "指令"]:
         help_text = (
             "🛠️ 管理員功能列表\n\n"
             "【目前可用指令】\n"
             "• 更新 航空公司 欄位 新內容\n"
             "  範例：更新 華航 其他要求 新的備註\n\n"
+            "• 加入別名 航空公司 別名\n"
+            "  範例：加入別名 CAL中華 華航\n\n"
             "• 幫助 / 功能 / 指令\n"
             "  → 顯示此說明\n\n"
             "【欄位名稱對照】\n"
@@ -125,23 +117,19 @@ def handle_message(event):
             "清廁 → toilet_service\n"
             "飲水 → water_service\n"
             "其他 / 其他要求 → others\n"
-            "輪檔 / 圖片 → chock_image\n\n"
-            "之後還會加入：新增、刪除、列表等功能。"
+            "輪檔 / 圖片 → chock_image"
         )
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=help_text)
-        )
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=help_text))
         return
+
+    # ---------- 更新 ----------
     if user_id == ADMIN_USER_ID and original_message.startswith("更新 "):
         try:
-            # 格式：更新 航空公司 欄位 新內容
             parts = original_message.split(" ", 3)
-
             if len(parts) < 4:
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text="格式錯誤！\n正確格式：\n更新 航空公司名稱 欄位 新內容\n\n範例：\n更新 華航 其他要求 新的備註內容")
+                    TextSendMessage(text="格式錯誤！\n正確格式：\n更新 航空公司名稱 欄位 新內容")
                 )
                 return
 
@@ -149,7 +137,6 @@ def handle_message(event):
             field = parts[2]
             new_value = parts[3]
 
-            # 尋找航空公司（支援別名）
             target_key = None
             for key, info in flight_database.items():
                 if airline_name.lower() in key.lower():
@@ -164,56 +151,38 @@ def handle_message(event):
                     break
 
             if not target_key:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=f"找不到航空公司：{airline_name}")
-                )
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到航空公司：{airline_name}"))
                 return
 
-            # 檢查欄位是否存在
             if field not in flight_database[target_key]:
-                # 嘗試常見欄位對應
                 field_map = {
-                    "拖桿": "towbar",
-                    "耳機": "headset",
-                    "耳機員": "headset",
-                    "bypass": "bypass_pin",
-                    "bypass pin": "bypass_pin",
-                    "gear": "gear_pin",
-                    "gear pin": "gear_pin",
-                    "清廁": "toilet_service",
-                    "飲水": "water_service",
-                    "其他": "others",
-                    "其他要求": "others",
-                    "輪檔": "chock_image",
-                    "圖片": "chock_image",
-                    "chock": "chock_image"
+                    "拖桿": "towbar", "耳機": "headset", "耳機員": "headset",
+                    "bypass": "bypass_pin", "bypass pin": "bypass_pin",
+                    "gear": "gear_pin", "gear pin": "gear_pin",
+                    "清廁": "toilet_service", "飲水": "water_service",
+                    "其他": "others", "其他要求": "others",
+                    "輪檔": "chock_image", "圖片": "chock_image", "chock": "chock_image"
                 }
                 field = field_map.get(field, field)
 
             if field not in flight_database[target_key]:
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=f"找不到欄位：{field}\n可用欄位：towbar, headset, bypass_pin, gear_pin, toilet_service, water_service, others, chock_image")
+                    TextSendMessage(text=f"找不到欄位：{field}")
                 )
                 return
 
-            # 更新資料
-            # 如果是更新圖片，自動轉換 Google Drive 網址
-if field == "chock_image" and "drive.google.com/file/d/" in new_value:
-    try:
-        # 從分享連結中提取檔案 ID
-        file_id = new_value.split("/file/d/")[1].split("/")[0]
-        new_value = f"https://drive.google.com/uc?export=view&id={file_id}"
-        logger.info(f"已自動轉換 Google Drive 圖片網址: {new_value}")
-    except Exception as e:
-        logger.error(f"轉換 Google Drive 網址失敗: {e}")
+            # 自動轉換 Google Drive 圖片網址
+            if field == "chock_image" and "drive.google.com/file/d/" in new_value:
+                try:
+                    file_id = new_value.split("/file/d/")[1].split("/")[0]
+                    new_value = f"https://drive.google.com/uc?export=view&id={file_id}"
+                    logger.info(f"已自動轉換 Google Drive 圖片網址")
+                except Exception as e:
+                    logger.error(f"轉換 Google Drive 網址失敗: {e}")
 
-# 更新資料
-old_value = flight_database[target_key][field]
-flight_database[target_key][field] = new_value
-
-            # 儲存到 Volume
+            old_value = flight_database[target_key][field]
+            flight_database[target_key][field] = new_value
             save_flight_database()
 
             line_bot_api.reply_message(
@@ -226,28 +195,23 @@ flight_database[target_key][field] = new_value
 
         except Exception as e:
             logger.error(f"更新失敗: {e}")
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=f"更新時發生錯誤：{str(e)}")
-            )
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"更新時發生錯誤：{str(e)}"))
             return
 
-# 加入別名
+    # ---------- 加入別名 ----------
     if user_id == ADMIN_USER_ID and original_message.startswith("加入別名 "):
         try:
             parts = original_message.split(" ", 2)
-
             if len(parts) < 3:
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text="格式錯誤！\n正確格式：\n加入別名 航空公司 別名\n\n範例：\n加入別名 CAL中華 華航")
+                    TextSendMessage(text="格式錯誤！\n正確格式：\n加入別名 航空公司 別名")
                 )
                 return
 
             airline_name = parts[1]
             new_alias = parts[2]
 
-            # 尋找航空公司
             target_key = None
             for key, info in flight_database.items():
                 if airline_name.lower() in key.lower():
@@ -262,17 +226,12 @@ flight_database[target_key][field] = new_value
                     break
 
             if not target_key:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=f"找不到航空公司：{airline_name}")
-                )
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到航空公司：{airline_name}"))
                 return
 
-            # 確保有 aliases 欄位
             if "aliases" not in flight_database[target_key]:
                 flight_database[target_key]["aliases"] = []
 
-            # 檢查是否已經有這個別名
             if new_alias in flight_database[target_key]["aliases"]:
                 line_bot_api.reply_message(
                     event.reply_token,
@@ -280,7 +239,6 @@ flight_database[target_key][field] = new_value
                 )
                 return
 
-            # 加入別名
             flight_database[target_key]["aliases"].append(new_alias)
             save_flight_database()
 
@@ -294,12 +252,10 @@ flight_database[target_key][field] = new_value
 
         except Exception as e:
             logger.error(f"加入別名失敗: {e}")
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=f"加入別名時發生錯誤：{str(e)}")
-            )
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"加入別名時發生錯誤：{str(e)}"))
             return
-    # ====================== 一般查詢功能 ======================
+
+    # ---------- 一般查詢 ----------
     flight = None
     matched_key = None
 
@@ -342,7 +298,6 @@ flight_database[target_key][field] = new_value
                     )
                 ]
             )
-            logger.info("回覆成功")
         except Exception as e:
             logger.error(f"圖片發送失敗: {e}")
             line_bot_api.reply_message(
@@ -352,7 +307,7 @@ flight_database[target_key][field] = new_value
     else:
         reply_text += "找不到對應航空公司，狼君試試像「華航」或「真航」這樣輸入喲！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-        logger.info("回覆找不到的訊息")
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     logger.info(f"啟動 Flask 應用在端口 {port}")
