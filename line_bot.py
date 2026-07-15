@@ -108,6 +108,31 @@ def handle_message(event):
     ADMIN_USER_ID = "Ub708c5cb86181ccf095998112faf6d89"
 
     # 只有管理員才能使用更新指令
+# 幫助 / 功能列表
+    if user_id == ADMIN_USER_ID and original_message in ["幫助", "功能", "指令"]:
+        help_text = (
+            "🛠️ 管理員功能列表\n\n"
+            "【目前可用指令】\n"
+            "• 更新 航空公司 欄位 新內容\n"
+            "  範例：更新 華航 其他要求 新的備註\n\n"
+            "• 幫助 / 功能 / 指令\n"
+            "  → 顯示此說明\n\n"
+            "【欄位名稱對照】\n"
+            "拖桿 → towbar\n"
+            "耳機 / 耳機員 → headset\n"
+            "bypass / bypass pin → bypass_pin\n"
+            "gear / gear pin → gear_pin\n"
+            "清廁 → toilet_service\n"
+            "飲水 → water_service\n"
+            "其他 / 其他要求 → others\n"
+            "輪檔 / 圖片 → chock_image\n\n"
+            "之後還會加入：新增、刪除、列表等功能。"
+        )
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=help_text)
+        )
+        return
     if user_id == ADMIN_USER_ID and original_message.startswith("更新 "):
         try:
             # 格式：更新 航空公司 欄位 新內容
