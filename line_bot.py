@@ -87,7 +87,7 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "JNA真航空": {
-        "aliases": ["真航", "JNA", "真航空", "JAL真航"],
+        "aliases": ["真航", "JNA", "真航空"],
         "towbar": "CAL",
         "headset": "需要",
         "bypass_pin": "需要",
@@ -493,6 +493,7 @@ flight_database = {
         "chock_image": "https://drive.google.com/uc?export=view&id=1Xd7sH3aAPwYlVqb2xWoAx1KJaHlegfpA"
     },
     "JAL日航": {
+	"aliases": ["JAL"],
         "towbar": "CAL",
         "headset": "不需",
         "bypass_pin": "不需",
