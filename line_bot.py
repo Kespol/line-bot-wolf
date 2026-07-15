@@ -221,6 +221,73 @@ def handle_message(event):
             )
             return
 
+# 加入別名
+    if user_id == ADMIN_USER_ID and original_message.startswith("加入別名 "):
+        try:
+            parts = original_message.split(" ", 2)
+
+            if len(parts) < 3:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text="格式錯誤！\n正確格式：\n加入別名 航空公司 別名\n\n範例：\n加入別名 CAL中華 華航")
+                )
+                return
+
+            airline_name = parts[1]
+            new_alias = parts[2]
+
+            # 尋找航空公司
+            target_key = None
+            for key, info in flight_database.items():
+                if airline_name.lower() in key.lower():
+                    target_key = key
+                    break
+                if "aliases" in info:
+                    for alias in info.get("aliases", []):
+                        if airline_name.lower() in alias.lower():
+                            target_key = key
+                            break
+                if target_key:
+                    break
+
+            if not target_key:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"找不到航空公司：{airline_name}")
+                )
+                return
+
+            # 確保有 aliases 欄位
+            if "aliases" not in flight_database[target_key]:
+                flight_database[target_key]["aliases"] = []
+
+            # 檢查是否已經有這個別名
+            if new_alias in flight_database[target_key]["aliases"]:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"「{new_alias}」已經是 {target_key} 的別名了")
+                )
+                return
+
+            # 加入別名
+            flight_database[target_key]["aliases"].append(new_alias)
+            save_flight_database()
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(
+                    text=f"✅ 已成功加入別名！\n\n航空公司：{target_key}\n新增別名：{new_alias}\n目前別名：{', '.join(flight_database[target_key]['aliases'])}"
+                )
+            )
+            return
+
+        except Exception as e:
+            logger.error(f"加入別名失敗: {e}")
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=f"加入別名時發生錯誤：{str(e)}")
+            )
+            return
     # ====================== 一般查詢功能 ======================
     flight = None
     matched_key = None
