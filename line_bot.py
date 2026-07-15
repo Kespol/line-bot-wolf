@@ -25,10 +25,13 @@ print("=== SECRET ===", os.environ.get("LINE_CHANNEL_SECRET"))
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+# ====================== 確保資料夾存在 ======================
+os.makedirs("/app/data", exist_ok=True)
+
 # ====================== 航空公司資料庫 ======================
 # 從 JSON 檔案載入航空公司資料
 try:
-    with open("flight_database.json", "r", encoding="utf-8") as f:
+    with open("/app/data/flight_database.json", "r", encoding="utf-8") as f:
         flight_database = json.load(f)
     logger.info("成功從 flight_database.json 載入資料")
 except FileNotFoundError:
@@ -37,6 +40,17 @@ except FileNotFoundError:
 except Exception as e:
     logger.error(f"載入 flight_database.json 失敗: {e}")
     flight_database = {}
+
+# ====================== 儲存資料函數 ======================
+def save_flight_database():
+    """將 flight_database 儲存回 JSON 檔案"""
+    try:
+        with open("/app/data/flight_database.json", "w", encoding="utf-8") as f:
+            json.dump(flight_database, f, ensure_ascii=False, indent=2)
+        logger.info("成功儲存 flight_database.json")
+    except Exception as e:
+        logger.error(f"儲存 flight_database.json 失敗: {e}")
+
 # ====================== 路由 ======================
 @app.route("/test")
 def test():
@@ -68,7 +82,6 @@ def root():
 # ====================== 訊息處理 ======================
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 把使用者輸入轉成小寫 + 去掉前後空格
     user_message = event.message.text.strip().lower()
     logger.info(f"收到訊息: {user_message}")
 
@@ -76,20 +89,16 @@ def handle_message(event):
     matched_key = None
 
     for key, info in flight_database.items():
-        # 把 key 轉小寫再比對
         if user_message in key.lower():
             flight = info
             matched_key = key
             break
-
-        # 把 aliases 也轉小寫再比對
         if "aliases" in info:
             for alias in info.get("aliases", []):
                 if user_message in alias.lower():
                     flight = info
                     matched_key = key
                     break
-
         if flight:
             break
 
@@ -122,7 +131,7 @@ def handle_message(event):
         except Exception as e:
             logger.error(f"圖片發送失敗: {e}")
             line_bot_api.reply_message(
-                event.reply_token, 
+                event.reply_token,
                 TextSendMessage(text=reply_text + "\n(圖片發送失敗，請稍後再試！)")
             )
     else:
