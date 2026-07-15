@@ -93,7 +93,7 @@ def handle_message(event):
         if flight:
             break
 
-    reply_text = "喵～狼君，狐狐幫你查！\n"
+    reply_text = "喵～狐狐幫你查！\n"
 
     if flight:
         reply_text += f"航空公司：{matched_key}\n"
