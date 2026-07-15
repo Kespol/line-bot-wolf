@@ -34,7 +34,7 @@ flight_database = {
         "toilet_service": "on call",
         "water_service": "on call",
         "others": "其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1KEX8y7gU-w5vdfXn5sG830RUAFSXISbL"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1S9fl02tUQAMR4d6H6viVw2HWxGv5Ub0H"
     },
     "AXM馬亞": {
         "towbar": "TIAS",
@@ -328,7 +328,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "不需要",
         "others": "飲水合約內 A380要專用拖桿 如壞掉用無拖桿需簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1X62JNOchYwc9_37Et9pECzNHa8EhSO69"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1HN24PhnNMyUjFe0EpwCSxzOLFTMavYfL"
     },
     "JJA濟州": {
         "towbar": "CAL",
@@ -429,7 +429,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "航機進場主輪檔需繞紅線外至機翼後 過夜同機號移機第三次簽單 過境移機要簽單 BCU-on call簽單 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1yKqMMLshdF2Sads4QxhcWJRNPelHrWGF"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1rOqDwcBL5mFxoE_0Rk9LioH5bwji97RU"
     },
     "BTK峇迪馬印": {
         "aliases": ["馬印"],
@@ -460,7 +460,7 @@ flight_database = {
         "toilet_service": "需要",
         "water_service": "需要",
         "others": "飛機輪檔要等修護或是loading說好才能放 其餘on call",
-        "chock_image": "https://drive.google.com/uc?export=view&id=1BTXGaagiOIe3pL8EgaY41N_Zf1bivd7T"
+        "chock_image": "https://drive.google.com/uc?export=view&id=1HN24PhnNMyUjFe0EpwCSxzOLFTMavYfL"
     },
     "HKE香港快運": {
         "towbar": "TIAS",
