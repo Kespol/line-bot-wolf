@@ -25,30 +25,50 @@ os.makedirs("/app/data", exist_ok=True)
 
 DATA_FILE = "/app/data/flight_database.json"
 REPO_FILE = "flight_database.json"
+BACKUP_FILE = "/app/data/flight_database_backup.json"
 
+# ====================== 載入資料 ======================
 if os.path.exists(DATA_FILE):
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             flight_database = json.load(f)
+        logger.info("✅ 成功從 Volume 載入 flight_database.json")
     except Exception as e:
-        flight_database = {}
+        logger.error(f"載入失敗，嘗試從備份恢復: {e}")
+        if os.path.exists(BACKUP_FILE):
+            shutil.copy(BACKUP_FILE, DATA_FILE)
+            with open(DATA_FILE, "r", encoding="utf-8") as f:
+                flight_database = json.load(f)
+        else:
+            flight_database = {}
 else:
     if os.path.exists(REPO_FILE):
         try:
             shutil.copy(REPO_FILE, DATA_FILE)
             with open(DATA_FILE, "r", encoding="utf-8") as f:
                 flight_database = json.load(f)
-        except:
+            logger.info("✅ 首次啟動，從 repo 複製資料")
+        except Exception as e:
+            logger.error(f"複製失敗: {e}")
             flight_database = {}
     else:
         flight_database = {}
+        logger.warning("⚠️ 找不到任何資料來源")
 
+# ====================== 儲存資料（加強版） ======================
 def save_flight_database():
     try:
+        # 先備份
+        if os.path.exists(DATA_FILE):
+            shutil.copy(DATA_FILE, BACKUP_FILE)
+
+        # 寫入
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(flight_database, f, ensure_ascii=False, indent=2)
+
+        logger.info("✅ 資料已成功儲存到 Volume")
     except Exception as e:
-        logger.error(str(e))
+        logger.error(f"❌ 儲存失敗: {e}")
 
 def format_status(val):
     if val == "需要":
@@ -91,7 +111,7 @@ def handle_message(event):
     text = event.message.text.strip()
     lower_text = text.lower()
 
-    # ==================== 管理員狀態處理 ====================
+    # 管理員狀態處理
     if user_id == ADMIN_USER_ID and user_id in admin_state:
         state = admin_state[user_id]
 
@@ -311,7 +331,7 @@ def handle_message(event):
             f"飲水：{format_status(flight.get('water_service', ''))}\n"
             f"其他要求：{flight.get('others', '')}\n"
             "華航代理的787系列：專用拖桿在A9\n"
-            "狐狐提醒：工作時小心點喲～"
+            "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
         )
         try:
             line_bot_api.reply_message(event.reply_token, [
