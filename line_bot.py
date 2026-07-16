@@ -25,31 +25,57 @@ os.makedirs("/app/data", exist_ok=True)
 
 DATA_FILE = "/app/data/flight_database.json"
 REPO_FILE = "flight_database.json"
+BACKUP_FILE = "/app/data/flight_database_backup.json"
 
+# ====================== 載入資料 ======================
 if os.path.exists(DATA_FILE):
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             flight_database = json.load(f)
-    except:
-        flight_database = {}
+        logger.info("✅ 成功從 Volume 載入 flight_database.json")
+    except Exception as e:
+        logger.error(f"載入失敗，嘗試從備份恢復: {e}")
+        if os.path.exists(BACKUP_FILE):
+            try:
+                shutil.copy(BACKUP_FILE, DATA_FILE)
+                with open(DATA_FILE, "r", encoding="utf-8") as f:
+                    flight_database = json.load(f)
+                logger.info("✅ 從備份恢復資料成功")
+            except:
+                flight_database = {}
+        else:
+            flight_database = {}
 else:
     if os.path.exists(REPO_FILE):
         try:
             shutil.copy(REPO_FILE, DATA_FILE)
             with open(DATA_FILE, "r", encoding="utf-8") as f:
                 flight_database = json.load(f)
-        except:
+            logger.info("✅ 首次啟動，從 repo 複製並載入資料")
+        except Exception as e:
+            logger.error(f"複製失敗: {e}")
             flight_database = {}
     else:
         flight_database = {}
+        logger.warning("⚠️ 找不到任何資料來源")
 
+# ====================== 儲存資料（加強版 + 備份） ======================
 def save_flight_database():
     try:
+        # 先做備份
+        if os.path.exists(DATA_FILE):
+            try:
+                shutil.copy(DATA_FILE, BACKUP_FILE)
+            except Exception as e:
+                logger.error(f"備份失敗: {e}")
+
+        # 寫入資料
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(flight_database, f, ensure_ascii=False, indent=2)
-        logger.info("✅ 資料已成功儲存")
+
+        logger.info("✅ 資料已成功儲存到 Volume")
     except Exception as e:
-        logger.error(f"儲存失敗: {e}")
+        logger.error(f"❌ 儲存失敗: {e}")
 
 def format_status(val):
     if val == "需要":
@@ -92,7 +118,7 @@ def handle_message(event):
     text = event.message.text.strip()
     lower_text = text.lower()
 
-    # 管理員狀態處理
+    # ==================== 管理員狀態處理 ====================
     if user_id == ADMIN_USER_ID and user_id in admin_state:
         state = admin_state[user_id]
 
@@ -101,8 +127,8 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已取消操作"))
             return
 
+        # 新增航空公司流程
         if state.get("action") == "add":
-            # 新增流程（完整）
             step = state.get("step", 0)
             data = state.get("data", {})
 
@@ -184,6 +210,7 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="已取消"))
                 return
 
+        # 移除航空公司流程
         if state.get("action") == "remove":
             if text.lower() == "全部":
                 flight_database.clear()
@@ -199,7 +226,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="找不到該航空公司"))
             return
 
-    # 管理員指令
+    # ==================== 管理員指令 ====================
     if user_id == ADMIN_USER_ID:
         if text == "新增":
             admin_state[user_id] = {"action": "add", "step": 0, "data": {}}
@@ -213,7 +240,7 @@ def handle_message(event):
 
         if text == "儲存":
             save_flight_database()
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已手動儲存資料"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已手動儲存資料到 JSON"))
             return
 
         if text.startswith("更新 "):
@@ -240,11 +267,18 @@ def handle_message(event):
                     except:
                         pass
 
+                old_value = flight_database[target].get(field, "(無此欄位)")
                 flight_database[target][field] = value
                 save_flight_database()
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 更新成功"))
+
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(
+                        text=f"✅ 更新成功！\n\n航空公司：{target}\n欄位：{field}\n原本值：{old_value}\n新值：{value}"
+                    )
+                )
             except Exception as e:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(e)))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"更新失敗：{str(e)}"))
             return
 
         if text.startswith("加入別名 "):
@@ -273,7 +307,7 @@ def handle_message(event):
                 else:
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="別名已存在"))
             except Exception as e:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(e)))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"加入別名失敗：{str(e)}"))
             return
 
         if text in ["幫助", "功能", "指令"]:
@@ -289,7 +323,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
             return
 
-    # 一般查詢
+    # ==================== 一般查詢 ====================
     flight = None
     matched_key = None
     for key, info in flight_database.items():
@@ -317,7 +351,7 @@ def handle_message(event):
             f"飲水：{format_status(flight.get('water_service', ''))}\n"
             f"其他要求：{flight.get('others', '')}\n"
             "華航代理的787系列：專用拖桿在A9\n"
-            "狐狐提醒：工作時小心點"
+            "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
         )
         try:
             line_bot_api.reply_message(event.reply_token, [
