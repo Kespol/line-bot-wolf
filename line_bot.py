@@ -20,9 +20,6 @@ app = Flask(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
 LINE_CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 
-print("=== ACCESS TOKEN ===", os.environ.get("LINE_CHANNEL_ACCESS_TOKEN"))
-print("=== SECRET ===", os.environ.get("LINE_CHANNEL_SECRET"))
-
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
@@ -63,6 +60,17 @@ def save_flight_database():
         logger.info("成功儲存 flight_database.json")
     except Exception as e:
         logger.error(f"儲存 flight_database.json 失敗: {e}")
+
+# ====================== 圖示格式化函數 ======================
+def format_status(val):
+    if val == "需要":
+        return "✅"
+    elif val == "不需要":
+        return "❌"
+    elif val == "on call":
+        return "📞"
+    else:
+        return val
 
 # ====================== 路由 ======================
 @app.route("/test")
@@ -108,16 +116,7 @@ def handle_message(event):
             "• 加入別名 航空公司 別名\n"
             "  範例：加入別名 CAL中華 華航\n\n"
             "• 幫助 / 功能 / 指令\n"
-            "  → 顯示此說明\n\n"
-            "【欄位名稱對照】\n"
-            "拖桿 → towbar\n"
-            "耳機 / 耳機員 → headset\n"
-            "bypass / bypass pin → bypass_pin\n"
-            "gear / gear pin → gear_pin\n"
-            "清廁 → toilet_service\n"
-            "飲水 → water_service\n"
-            "其他 / 其他要求 → others\n"
-            "輪檔 / 圖片 → chock_image"
+            "  → 顯示此說明"
         )
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=help_text))
         return
@@ -166,10 +165,7 @@ def handle_message(event):
                 field = field_map.get(field, field)
 
             if field not in flight_database[target_key]:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=f"找不到欄位：{field}")
-                )
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到欄位：{field}"))
                 return
 
             # 自動轉換 Google Drive 圖片網址
@@ -177,7 +173,6 @@ def handle_message(event):
                 try:
                     file_id = new_value.split("/file/d/")[1].split("/")[0]
                     new_value = f"https://drive.google.com/uc?export=view&id={file_id}"
-                    logger.info(f"已自動轉換 Google Drive 圖片網址")
                 except Exception as e:
                     logger.error(f"轉換 Google Drive 網址失敗: {e}")
 
@@ -233,10 +228,7 @@ def handle_message(event):
                 flight_database[target_key]["aliases"] = []
 
             if new_alias in flight_database[target_key]["aliases"]:
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    TextSendMessage(text=f"「{new_alias}」已經是 {target_key} 的別名了")
-                )
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"「{new_alias}」已經是 {target_key} 的別名了"))
                 return
 
             flight_database[target_key]["aliases"].append(new_alias)
@@ -276,16 +268,14 @@ def handle_message(event):
     reply_text = "喵～狐狐幫你查！\n"
 
     if flight:
-        reply_text += f"航空公司：{matched_key}\n"
-        reply_text += f"拖桿：{flight['towbar']}\n"
-        reply_text += f"耳機員：{flight['headset']}\n"
-        reply_text += f"bypass pin：{flight['bypass_pin']}\n"
-        reply_text += f"收裝gear pin：{flight['gear_pin']}\n"
-        reply_text += f"清廁：{flight['toilet_service']}\n"
-        reply_text += f"飲水：{flight['water_service']}\n"
+        reply_text += f"耳機員：{format_status(flight['headset'])}\n"
+        reply_text += f"bypass pin：{format_status(flight['bypass_pin'])}\n"
+        reply_text += f"收裝gear pin：{format_status(flight['gear_pin'])}\n"
+        reply_text += f"清廁：{format_status(flight['toilet_service'])}\n"
+        reply_text += f"飲水：{format_status(flight['water_service'])}\n"
         reply_text += f"其他要求：{flight['others']}\n"
         reply_text += "華航代理的787系列：專用拖桿在A9\n"
-        reply_text += "狐狐提醒：工作時小心點～"
+        reply_text += "狐狐提醒：狼君，工作時小心點，狐狐在妖怪森林等你喲～"
 
         try:
             line_bot_api.reply_message(
