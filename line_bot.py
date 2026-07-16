@@ -268,6 +268,7 @@ def handle_message(event):
     reply_text = "喵～狐狐幫你查！\n"
 
     if flight:
+        reply_text += f"航空公司：{matched_key}\n"
         reply_text += f"拖桿：{flight['towbar']}\n"
         reply_text += f"耳機員：{format_status(flight['headset'])}\n"
         reply_text += f"bypass pin：{format_status(flight['bypass_pin'])}\n"
