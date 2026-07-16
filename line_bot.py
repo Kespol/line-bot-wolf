@@ -23,6 +23,33 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 os.makedirs("/app/data", exist_ok=True)
 
+# ====================== 暫時改名用（改完後請刪除這段） ======================
+import json as json_temp
+
+DATA_FILE_TEMP = "/app/data/flight_database.json"
+
+if os.path.exists(DATA_FILE_TEMP):
+    with open(DATA_FILE_TEMP, "r", encoding="utf-8") as f:
+        data_temp = json_temp.load(f)
+
+    old_key = "捷星太平洋"
+    new_key = "PIC太平洋航空"
+
+    if old_key in data_temp:
+        data_temp[new_key] = data_temp.pop(old_key)
+
+        if "aliases" not in data_temp[new_key]:
+            data_temp[new_key]["aliases"] = []
+
+        if old_key not in data_temp[new_key]["aliases"]:
+            data_temp[new_key]["aliases"].append(old_key)
+
+        with open(DATA_FILE_TEMP, "w", encoding="utf-8") as f:
+            json_temp.dump(data_temp, f, ensure_ascii=False, indent=2)
+
+        print(f"✅ 已成功改名：{old_key} → {new_key}")
+# ====================== 暫時改名結束 ======================
+
 DATA_FILE = "/app/data/flight_database.json"
 REPO_FILE = "flight_database.json"
 
@@ -30,7 +57,7 @@ if os.path.exists(DATA_FILE):
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
             flight_database = json.load(f)
-    except Exception as e:
+    except:
         flight_database = {}
 else:
     if os.path.exists(REPO_FILE):
@@ -91,7 +118,7 @@ def handle_message(event):
     text = event.message.text.strip()
     lower_text = text.lower()
 
-    # 管理員狀態處理（新增 / 移除）
+    # 管理員狀態處理
     if user_id == ADMIN_USER_ID and user_id in admin_state:
         state = admin_state[user_id]
 
@@ -100,7 +127,6 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已取消操作"))
             return
 
-        # 新增航空公司流程
         if state.get("action") == "add":
             step = state.get("step", 0)
             data = state.get("data", {})
@@ -115,31 +141,31 @@ def handle_message(event):
                 data["towbar"] = text
                 state["step"] = 2
                 state["data"] = data
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="耳機員？（需要 / 不需要）"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="耳機員？（需要/不需要）"))
                 return
             elif step == 2:
                 data["headset"] = text
                 state["step"] = 3
                 state["data"] = data
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="bypass pin？（需要 / 不需要）"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="bypass pin？（需要/不需要）"))
                 return
             elif step == 3:
                 data["bypass_pin"] = text
                 state["step"] = 4
                 state["data"] = data
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="gear pin？（需要 / 不需要）"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="gear pin？（需要/不需要）"))
                 return
             elif step == 4:
                 data["gear_pin"] = text
                 state["step"] = 5
                 state["data"] = data
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="清廁？（需要 / 不需要 / on call）"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="清廁？（需要/不需要/on call）"))
                 return
             elif step == 5:
                 data["toilet_service"] = text
                 state["step"] = 6
                 state["data"] = data
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="飲水？（需要 / 不需要 / on call）"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="飲水？（需要/不需要/on call）"))
                 return
             elif step == 6:
                 data["water_service"] = text
@@ -156,7 +182,7 @@ def handle_message(event):
             elif step == 8:
                 data["chock_image"] = "" if text.lower() == "無" else text
                 summary = (
-                    f"請確認以下資料：\n\n"
+                    f"請確認資料：\n\n"
                     f"航空公司：{data['name']}\n"
                     f"拖桿：{data['towbar']}\n"
                     f"耳機員：{data['headset']}\n"
@@ -165,8 +191,8 @@ def handle_message(event):
                     f"清廁：{data['toilet_service']}\n"
                     f"飲水：{data['water_service']}\n"
                     f"其他要求：{data['others']}\n"
-                    f"輪檔圖片：{data.get('chock_image', '無')}\n\n"
-                    "請輸入「確認」儲存，或「取消」放棄"
+                    f"輪檔：{data.get('chock_image', '無')}\n\n"
+                    "輸入「確認」儲存，或「取消」"
                 )
                 state["step"] = 9
                 state["data"] = data
@@ -177,24 +203,23 @@ def handle_message(event):
                     flight_database[data["name"]] = data
                     save_flight_database()
                     del admin_state[user_id]
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"✅ 已成功新增「{data['name']}」"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"✅ 已新增 {data['name']}"))
                 else:
                     del admin_state[user_id]
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="已取消新增"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="已取消"))
                 return
 
-        # 移除航空公司流程
         if state.get("action") == "remove":
             if text.lower() == "全部":
                 flight_database.clear()
                 save_flight_database()
                 del admin_state[user_id]
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已移除全部航空公司資料"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已移除全部"))
             elif text in flight_database:
                 del flight_database[text]
                 save_flight_database()
                 del admin_state[user_id]
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"✅ 已移除「{text}」"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"✅ 已移除 {text}"))
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="找不到該航空公司"))
             return
@@ -203,19 +228,19 @@ def handle_message(event):
     if user_id == ADMIN_USER_ID:
         if text == "新增":
             admin_state[user_id] = {"action": "add", "step": 0, "data": {}}
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入航空公司名稱（輸入「取消」可退出）"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入航空公司名稱"))
             return
 
         if text == "移除":
             admin_state[user_id] = {"action": "remove", "step": 0}
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入要移除的航空公司名稱（或輸入「全部」移除所有，輸入「取消」退出）"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入航空公司名稱或「全部」"))
             return
 
         if text.startswith("更新 "):
             try:
                 parts = text.split(" ", 3)
                 if len(parts) < 4:
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤！正確格式：更新 航空公司 欄位 新內容"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤"))
                     return
                 name, field, value = parts[1], parts[2], parts[3]
 
@@ -239,14 +264,14 @@ def handle_message(event):
                 save_flight_database()
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 更新成功"))
             except Exception as e:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"錯誤：{str(e)}"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(e)))
             return
 
         if text.startswith("加入別名 "):
             try:
                 parts = text.split(" ", 2)
                 if len(parts) < 3:
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤！正確格式：加入別名 航空公司 別名"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤"))
                     return
                 name, alias = parts[1], parts[2]
 
@@ -268,18 +293,11 @@ def handle_message(event):
                 else:
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="別名已存在"))
             except Exception as e:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"錯誤：{str(e)}"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=str(e)))
             return
 
         if text in ["幫助", "功能", "指令"]:
-            msg = (
-                "🛠️ 管理員功能列表\n\n"
-                "• 新增\n"
-                "• 移除\n"
-                "• 更新 航空公司 欄位 新內容\n"
-                "• 加入別名 航空公司 別名\n"
-                "• 幫助"
-            )
+            msg = "指令：新增 / 移除 / 更新 / 加入別名 / 幫助"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
             return
 
@@ -324,7 +342,7 @@ def handle_message(event):
         except:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
     else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="找不到對應航空公司，狼君試試像「華航」或「真航」這樣輸入喲！"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="找不到對應航空公司"))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
