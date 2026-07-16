@@ -74,7 +74,7 @@ def format_status(val):
 
 # ====================== 管理員狀態管理 ======================
 ADMIN_USER_ID = "Ub708c5cb86181ccf095998112faf6d89"
-admin_state = {}  # 記錄管理員目前在做什麼
+admin_state = {}  # {user_id: {"action": "add" or "remove", "step": ..., "data": {...}}}
 
 # ====================== 路由 ======================
 @app.route("/test")
@@ -108,21 +108,22 @@ def handle_message(event):
 
     logger.info(f"收到訊息: {original_message} (User: {user_id})")
 
-    # 只允許管理員使用進階功能
-    if user_id != ADMIN_USER_ID:
-        # 一般使用者只允許查詢
-        pass
-
-    # ---------- 管理員功能狀態處理 ----------
+    # ==================== 管理員狀態處理 ====================
     if user_id == ADMIN_USER_ID and user_id in admin_state:
         state = admin_state[user_id]
 
-        # 新增航空公司流程
+        # 隨時可以輸入「取消」退出
+        if original_message == "取消":
+            del admin_state[user_id]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已取消操作"))
+            return
+
+        # ---------- 新增航空公司流程 ----------
         if state["action"] == "add":
             step = state["step"]
             data = state["data"]
 
-            if step == 0:
+            if step == 0:  # 名稱
                 data["name"] = original_message
                 state["step"] = 1
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入拖桿類型（例如：TIAS、CAL、天際）"))
@@ -163,10 +164,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="輪檔圖片網址？（可直接貼 Google Drive 連結，或輸入「無」）"))
                 return
             elif step == 8:
-                if original_message.lower() != "無":
-                    data["chock_image"] = original_message
-                else:
-                    data["chock_image"] = ""
+                data["chock_image"] = "" if original_message.lower() == "無" else original_message
 
                 # 顯示確認
                 summary = f"請確認以下資料是否正確：\n\n"
@@ -179,7 +177,7 @@ def handle_message(event):
                 summary += f"飲水：{data['water_service']}\n"
                 summary += f"其他要求：{data['others']}\n"
                 summary += f"輪檔圖片：{data.get('chock_image', '無')}\n\n"
-                summary += "請輸入「確認」來儲存，或「取消」放棄"
+                summary += "請輸入「確認」儲存，或「取消」放棄"
 
                 state["step"] = 9
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=summary))
@@ -187,7 +185,6 @@ def handle_message(event):
 
             elif step == 9:
                 if original_message == "確認":
-                    # 儲存
                     flight_database[data["name"]] = {
                         "towbar": data["towbar"],
                         "headset": data["headset"],
@@ -206,7 +203,7 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="已取消新增"))
                 return
 
-        # 移除航空公司流程
+        # ---------- 移除航空公司流程 ----------
         if state["action"] == "remove":
             if original_message.lower() == "全部":
                 flight_database.clear()
@@ -223,22 +220,22 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到「{original_message}」"))
             return
 
-    # ---------- 一般管理員指令 ----------
+    # ==================== 一般管理員指令 ====================
     if user_id == ADMIN_USER_ID:
         if original_message == "新增":
             admin_state[user_id] = {"action": "add", "step": 0, "data": {}}
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入航空公司名稱"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入航空公司名稱（輸入「取消」可隨時退出）"))
             return
 
         if original_message == "移除":
             admin_state[user_id] = {"action": "remove", "step": 0}
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入要移除的航空公司名稱（或輸入「全部」移除所有）"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入要移除的航空公司名稱（或輸入「全部」移除所有，輸入「取消」退出）"))
             return
 
-        # 其他原有管理員指令（更新、加入別名、幫助）...
-        # （這裡省略，你原本的更新和加入別名功能保留）
+        # 其他原有指令（更新、加入別名、幫助）保留
+        # ...（這裡省略，你原本的更新和加入別名功能繼續保留）
 
-    # ---------- 一般查詢 ----------
+    # ==================== 一般查詢 ====================
     flight = None
     matched_key = None
 
