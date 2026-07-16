@@ -74,7 +74,7 @@ def format_status(val):
 
 # ====================== 管理員狀態管理 ======================
 ADMIN_USER_ID = "Ub708c5cb86181ccf095998112faf6d89"
-admin_state = {}  # {user_id: {"action": "add" or "remove", "step": ..., "data": {...}}}
+admin_state = {}
 
 # ====================== 路由 ======================
 @app.route("/test")
@@ -108,22 +108,21 @@ def handle_message(event):
 
     logger.info(f"收到訊息: {original_message} (User: {user_id})")
 
-    # ==================== 管理員狀態處理 ====================
+    # ==================== 管理員狀態處理（含取消） ====================
     if user_id == ADMIN_USER_ID and user_id in admin_state:
         state = admin_state[user_id]
 
-        # 隨時可以輸入「取消」退出
         if original_message == "取消":
             del admin_state[user_id]
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="✅ 已取消操作"))
             return
 
-        # ---------- 新增航空公司流程 ----------
+        # 新增航空公司
         if state["action"] == "add":
             step = state["step"]
             data = state["data"]
 
-            if step == 0:  # 名稱
+            if step == 0:
                 data["name"] = original_message
                 state["step"] = 1
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入拖桿類型（例如：TIAS、CAL、天際）"))
@@ -166,7 +165,6 @@ def handle_message(event):
             elif step == 8:
                 data["chock_image"] = "" if original_message.lower() == "無" else original_message
 
-                # 顯示確認
                 summary = f"請確認以下資料是否正確：\n\n"
                 summary += f"航空公司：{data['name']}\n"
                 summary += f"拖桿：{data['towbar']}\n"
@@ -203,7 +201,7 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="已取消新增"))
                 return
 
-        # ---------- 移除航空公司流程 ----------
+        # 移除航空公司
         if state["action"] == "remove":
             if original_message.lower() == "全部":
                 flight_database.clear()
@@ -232,8 +230,129 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text="請輸入要移除的航空公司名稱（或輸入「全部」移除所有，輸入「取消」退出）"))
             return
 
-        # 其他原有指令（更新、加入別名、幫助）保留
-        # ...（這裡省略，你原本的更新和加入別名功能繼續保留）
+        # ==================== 更新 ====================
+        if original_message.startswith("更新 "):
+            try:
+                parts = original_message.split(" ", 3)
+                if len(parts) < 4:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤！正確格式：更新 航空公司 欄位 新內容"))
+                    return
+
+                airline_name = parts[1]
+                field = parts[2]
+                new_value = parts[3]
+
+                target_key = None
+                for key, info in flight_database.items():
+                    if airline_name.lower() in key.lower():
+                        target_key = key
+                        break
+                    if "aliases" in info:
+                        for alias in info.get("aliases", []):
+                            if airline_name.lower() in alias.lower():
+                                target_key = key
+                                break
+                    if target_key: break
+
+                if not target_key:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到航空公司：{airline_name}"))
+                    return
+
+                if field not in flight_database[target_key]:
+                    field_map = {
+                        "拖桿": "towbar", "耳機": "headset", "耳機員": "headset",
+                        "bypass": "bypass_pin", "bypass pin": "bypass_pin",
+                        "gear": "gear_pin", "gear pin": "gear_pin",
+                        "清廁": "toilet_service", "飲水": "water_service",
+                        "其他": "others", "其他要求": "others",
+                        "輪檔": "chock_image", "圖片": "chock_image", "chock": "chock_image"
+                    }
+                    field = field_map.get(field, field)
+
+                if field not in flight_database[target_key]:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到欄位：{field}"))
+                    return
+
+                if field == "chock_image" and "drive.google.com/file/d/" in new_value:
+                    try:
+                        file_id = new_value.split("/file/d/")[1].split("/")[0]
+                        new_value = f"https://drive.google.com/uc?export=view&id={file_id}"
+                    except:
+                        pass
+
+                old_value = flight_database[target_key][field]
+                flight_database[target_key][field] = new_value
+                save_flight_database()
+
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"✅ 更新成功！\n\n航空公司：{target_key}\n欄位：{field}\n原本內容：{old_value}\n新內容：{new_value}")
+                )
+                return
+            except Exception as e:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"更新失敗：{str(e)}"))
+                return
+
+        # ==================== 加入別名（已修正儲存） ====================
+        if original_message.startswith("加入別名 "):
+            try:
+                parts = original_message.split(" ", 2)
+                if len(parts) < 3:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="格式錯誤！正確格式：加入別名 航空公司 別名"))
+                    return
+
+                airline_name = parts[1]
+                new_alias = parts[2]
+
+                target_key = None
+                for key, info in flight_database.items():
+                    if airline_name.lower() in key.lower():
+                        target_key = key
+                        break
+                    if "aliases" in info:
+                        for alias in info.get("aliases", []):
+                            if airline_name.lower() in alias.lower():
+                                target_key = key
+                                break
+                    if target_key: break
+
+                if not target_key:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"找不到航空公司：{airline_name}"))
+                    return
+
+                if "aliases" not in flight_database[target_key]:
+                    flight_database[target_key]["aliases"] = []
+
+                if new_alias in flight_database[target_key]["aliases"]:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"「{new_alias}」已經是 {target_key} 的別名了"))
+                    return
+
+                flight_database[target_key]["aliases"].append(new_alias)
+                save_flight_database()
+
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=f"✅ 已成功加入別名！\n\n航空公司：{target_key}\n新增別名：{new_alias}\n目前別名：{flight_database[target_key]['aliases']}")
+                )
+                return
+            except Exception as e:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"加入別名失敗：{str(e)}"))
+                return
+
+        # ==================== 幫助 ====================
+        if original_message in ["幫助", "功能", "指令"]:
+            help_text = (
+                "🛠️ 管理員功能列表\n\n"
+                "【指令】\n"
+                "• 新增\n"
+                "• 移除\n"
+                "• 更新 航空公司 欄位 新內容\n"
+                "• 加入別名 航空公司 別名\n"
+                "• 幫助\n\n"
+                "輸入「取消」可隨時退出新增/移除流程"
+            )
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=help_text))
+            return
 
     # ==================== 一般查詢 ====================
     flight = None
