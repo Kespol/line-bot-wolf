@@ -10,32 +10,6 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 
-# ====================== 暫時改名用（改完後請刪除這段） ======================
-import json as json_temp
-
-DATA_FILE_TEMP = "/app/data/flight_database.json"
-
-with open(DATA_FILE_TEMP, "r", encoding="utf-8") as f:
-    data_temp = json_temp.load(f)
-
-old_key = "捷星太平洋"
-new_key = "PIC太平洋航空"
-
-if old_key in data_temp:
-    data_temp[new_key] = data_temp.pop(old_key)
-    
-    if "aliases" not in data_temp[new_key]:
-        data_temp[new_key]["aliases"] = []
-    
-    if old_key not in data_temp[new_key]["aliases"]:
-        data_temp[new_key]["aliases"].append(old_key)
-    
-    with open(DATA_FILE_TEMP, "w", encoding="utf-8") as f:
-        json_temp.dump(data_temp, f, ensure_ascii=False, indent=2)
-    
-    print(f"✅ 已成功改名：{old_key} → {new_key}")
-# ====================== 暫時改名結束 ======================
-
 # 設置日誌
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
